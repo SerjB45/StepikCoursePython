@@ -1,3 +1,9 @@
+import re
+
+text = 'home sweet , home'
+text = re.sub(r'[.,!?:;-]', '', text)
+words = text.split()
+
 # Расчет n строки треугольника Паскаля
 def pascal(n):
     line = [1]
@@ -199,7 +205,7 @@ def step_horse(pos):
 
 step_horse('b6')        
 
-
+abs(x1 - x2) == abs(y1 - y2) or x1 == x2 or y1 == y2
 # Для проверки, является ли заданная квадратная матрица магическим квадратом, нужно выполнить несколько шагов:
 
 # Проверка суммы строк и столбцов: Все строки и столбцы должны иметь одинаковую сумму.
@@ -301,7 +307,7 @@ top, bottom, left, right = 0, n - 1, 0, m - 1
 while top <= bottom and left <= right:
     # Движение вправо
     for i in range(left, right + 1):
-        matrix[x][i] = num
+        matrix[top][i] = num
         num += 1
     top += 1
     
@@ -327,4 +333,51 @@ while top <= bottom and left <= right:
 
 # Вывод матрицы
 for row in matrix:
+    print(' '.join(map(str, row)))
+
+# Вывод матрицы
+for row in matrix:
     print(' '.join(map(str, row)))                
+    
+
+# Создание словаря tuple + list    
+pets = [('Hatiko', 'Parker', 'Wilson', 50),
+        ('Rusty', 'Josh', 'King', 25),
+        ('Fido', 'John', 'Smith', 28),
+        ('Butch', 'Jake', 'Smirnoff', 18),
+        ('Odi', 'Emma', 'Wright', 18),
+        ('Balto', 'Josh', 'King', 25),
+        ('Barry', 'Josh', 'King', 25),
+        ('Snape', 'Hannah', 'Taylor', 40),
+        ('Horry', 'Martha', 'Robinson', 73),
+        ('Giro', 'Alex', 'Martinez', 65),
+        ('Zooma', 'Simon', 'Nevel', 32),
+        ('Lassie', 'Josh', 'King', 25),
+        ('Chase', 'Martha', 'Robinson', 73),
+        ('Ace', 'Martha', 'Williams', 38),
+        ('Rocky', 'Simon', 'Nevel', 32)]
+
+result = {}
+for pet in pets:
+    result.setdefault(pet[1:], []).append(pet[0])     
+    
+# создание словаря с подсчетом символов и     
+lst = input().split()
+res = {}
+for c in lst:
+    if c in res:
+        print(f'{c}_{res[c]}', end=' ')
+    else:
+        print(c, end=' ')
+    res[c] = res.get(c, 0) + 1    
+
+# построение запроса
+def build_query_string(params):
+    query_str = ''
+    params = sorted(params.items())
+    for key, value in params:
+        query_str += key + '=' + str(value) + '&'
+    return query_str.rstrip('&')
+
+
+    

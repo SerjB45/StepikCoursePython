@@ -1,4 +1,6 @@
 import re
+import random as rm
+from math import gcd
 
 text = 'home sweet , home'
 text = re.sub(r'[.,!?:;-]', '', text)
@@ -205,7 +207,7 @@ def step_horse(pos):
 
 step_horse('b6')        
 
-abs(x1 - x2) == abs(y1 - y2) or x1 == x2 or y1 == y2
+# abs(x1 - x2) == abs(y1 - y2) or x1 == x2 or y1 == y2
 # Для проверки, является ли заданная квадратная матрица магическим квадратом, нужно выполнить несколько шагов:
 
 # Проверка суммы строк и столбцов: Все строки и столбцы должны иметь одинаковую сумму.
@@ -379,5 +381,162 @@ def build_query_string(params):
         query_str += key + '=' + str(value) + '&'
     return query_str.rstrip('&')
 
+# generate ip
 
+def generate_ip():
+    ip = []
+    for _ in range(4):
+        ip.append(str(rm.randint(0, 255)))
+    return '.'.join(ip)    
+
+
+# генерация карточки бинго
+def generate_bingo_card():
+    numbers = rm.sample(range(1,76),25)
+    bingo_card = [[0] * 5 for _ in range(5)]
+    index = 0
+    for i in range(5):
+        for j in range(5):
+            bingo_card[i][j] = numbers[index]
+            index += 1
+        bingo_card[i].sort()     
+    bingo_card[2][2] = 0
+    return bingo_card  
+
+card = generate_bingo_card()
+for line in card:
+    print(*line)
     
+    
+
+# На вход программе подается натуральное число n. 
+# Напишите программу, которая находит наибольшую правильную несократимую дробь с суммой числителя и знаменателя, равной n.
+def find_largest_fraction(n):
+    # Начнём с максимального значения a меньше половины суммы
+    a = (n - 1) // 2
+    
+    # Уменьшать a, пока не найдем несократимую дробь
+    while gcd(a, n-a) > 1:
+        a -= 1
+    
+    # Возвращаем дробь
+    return f'{a}/{n-a}'
+
+# Чтение входных данных
+n = int(input())
+# Нахождение и вывод искомой дроби
+result = find_largest_fraction(n)
+print(result)    
+
+
+
+# На вход программе подается натуральное число n. 
+# Напишите программу, которая выводит в порядке возрастания все 
+# несократимые дроби, заключенные между 0 и 1, знаменатель которых не превосходит n.
+def frac():
+    n = int(input())  # Читаем число n
+    
+    fractions = []  # Здесь будем хранить дроби
+    
+    # Перебираем знаменатели от 2 до n
+    for denominator in range(2, n + 1):
+        # Перебираем числители от 1 до знаменателя - 1
+        for numerator in range(1, denominator):
+            # Проверяем, что дробь несократима
+            if gcd(numerator, denominator) == 1:
+                fractions.append((numerator / denominator, numerator, denominator))
+    
+    # Сортируем дроби по значению
+    fractions.sort(key=lambda x: x[0])
+    
+    # Выводим результат
+    for _, numerator, denominator in fractions:
+        print(f"{numerator}/{denominator}")
+        
+
+#программу, которая с помощью функций filter() и map() отбирает из заданного списка numbers 
+# трехзначные числа, дающие при делении на 5 остаток
+# 2, и выводит их кубы, каждый на отдельной строке.
+numbers = [1014, 1321, 675, 1215, 56, 1386, 1385, 431, 1058, 486, 1434, 696, 1016, 1084, 424, 1189, 475, 95, 1434, 1462, 815, 776, 657, 1225, 912, 537, 1478, 1176, 544, 488, 668, 944, 207, 266, 1309, 1027, 257, 1374, 1289, 1155, 230, 866, 708, 144, 1434, 1163, 345, 394, 560, 338, 232, 182, 1438, 1127, 928, 1309, 98, 530, 1013, 898, 669, 105, 130, 1363, 947, 72, 1278, 166, 904, 349, 831, 1207, 1496, 370, 725, 926, 175, 959, 1282, 336, 1268, 351, 1439, 186, 273, 1008, 231, 138, 142, 433, 456, 1268, 1018, 1274, 387, 120, 340, 963, 832, 1127]
+def f_opt(x):
+    return len(str(x)) == 3 and x % 5 == 2
+def m_opt(x):
+    return x ** 3
+numbers =list(map(m_opt, list(filter(f_opt, numbers))))
+print(*numbers, sep='\n')
+
+# Напишите программу для вычисления и вывода суммы квадратов элементов списка numbers.
+numbers = [97, 42, 9, 32, 3, 45, 31, 77, -1, 11, -2, 75, 5, 51, 34, 28, 46, 1, -8, 84, 16, 51, 90, 56, 65, 90, 23, 35, 11, -10, 70, 90, 90, 12, 96, 58, -8, -4, 91, 76, 94, 60, 72, 43, 4, -6, -5, 51, 58, 60, 30, 38, 67, 62, 36, 72, 34, 82, 62, -1, 60, 82, 87, 81, -7, 57, 26, 36, 17, 43, 80, 40, 75, 94, 91, 64, 38, 72, 29, 84, 38, 35, 7, 54, 31, 95, 78, 27, 82, 1, 64, 94, 31, 29, -8, 98, 24, 61, 7, 73]
+squared_sum = reduce(lambda acc, x: acc + x*x, numbers, 0)
+print(squared_sum)
+
+
+# № проверка пароля
+# Длина пароля ≥ 7 символов.
+# Пароль содержит хотя бы одну цифру.
+# Пароль содержит хотя бы одну заглавную букву.
+# Пароль содержит хотя бы одну строчную букву.
+password = input()
+# Проверяем требования
+good_password = (
+    len(password) >= 7 and              # длина >= 7 символов
+    any(char.isdigit() for char in password) and  # есть хотя бы одна цифра
+    any(char.isupper() for char in password) and  # есть хотя бы одна заглавная буква
+    any(char.islower() for char in password)      # есть хотя бы одна строчная буква
+)
+
+# Выводим результат
+print("YES" if good_password else "NO")
+
+
+# "замена нецензурных слов в файле" 
+with open(input()) as inp, open('forbidden_words.txt') as fw:
+    text, bad = inp.read(), fw.read().split()
+
+for i in bad:
+    text = re.sub(i, '*' * len(i), text, flags=re.IGNORECASE)
+print(text)
+
+
+# Транслитерация
+# Словарь для транслитерации
+d = {
+    'а': 'a', 'к': 'k', 'х': 'h', 'б': 'b', 'л': 'l', 'ц': 'c', 'в': 'v', 'м': 'm', 'ч': 'ch',
+    'г': 'g', 'н': 'n', 'ш': 'sh', 'д': 'd', 'о': 'o', 'щ': 'shh', 'е': 'e', 'п': 'p', 'ъ': '*',
+    'ё': 'jo', 'р': 'r', 'ы': 'y', 'ж': 'zh', 'с': 's', 'ь': "'", 'з': 'z', 'т': 't', 'э': 'je',
+    'и': 'i', 'у': 'u', 'ю': 'ju', 'й': 'j', 'ф': 'f', 'я': 'ya'
+}
+# Функция для транслитерации
+def transliterate(text):
+    result = []
+    for char in text:
+        if char.lower() in d:
+            # Если символ заглавный, делаем первую букву заглавной
+            if char.isupper():
+                result.append(d[char.lower()].capitalize())
+            else:
+                result.append(d[char.lower()])
+        else:
+            result.append(char)
+    return ''.join(result)
+# Читаем содержимое файла
+with open('cyrillic.txt', 'r', encoding='utf-8') as file:
+    content = file.read()
+# Транслитерируем текст
+transliterated_text = transliterate(content)
+# Записываем результат в файл
+with open('transliteration.txt', 'w', encoding='utf-8') as file:
+    file.write(transliterated_text)
+    
+    
+# проверка комментария к функции    
+with open(input(), encoding='utf-8') as i:
+    s = i.readlines()
+    a = []
+    for i in range(len(s)):
+        if s[i].startswith('def') and (i == 0 or not s[i-1].startswith('#')):
+            a.append(s[i][4:s[i].index('(')])
+    if len(a) == 0:
+        print('Best Programming Team')
+    else:
+        print(*a, sep='\n')    
